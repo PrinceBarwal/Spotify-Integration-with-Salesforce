@@ -6,6 +6,9 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class SpotifyIntegratinWithSalesforce extends LightningElement {
     searchTracker;
+    displayResult = false;
+    trackData = '';
+    trackURL = '';  
 
     changeHandler(event) {
         this.searchTracker = event.target.value;
@@ -20,39 +23,27 @@ export default class SpotifyIntegratinWithSalesforce extends LightningElement {
                 })
                 let response = JSON.parse(responseString);
                 let parsedResponse = structuredClone(response);
+                this.displayResult = true;
+                this.trackData = parsedResponse.tracks.items[0];
+                this.trackURL = this.trackData.album.images[0].url;
                 console.log('Parsed Response:', parsedResponse);
             } catch (exception) {
                 this.showToast('Error', 'Something went Wrong', 'error');
             }
+                 
         // }
 
-        // let responseString = await searchWithSpotify({
-        //     trackName: this.searchTracker
-        // })
-        // console.log('type of : ',responseString);
-        //let response = JSON.parse(responseString);
-        // console.log('response: ', response);
-        // let parsedResponse = structuredClone(response);
-
-        // console.log('Parsed Response:', parsedResponse);
-        // console.log(parsedResponse.tracks);
-        // let parsedResponse = JSON.parse(JSON.stringify(response));
-        // console.log(parsedResponse); 
-        // let cleanResponse = cloneDeep(responseString);
-        // console.log('Lodash Cleaned Response:', cleanResponse);           
-    
-
     }
 
-    validInput() {
-        let isValid = true;
-        let element = this.template.querySelecter('lightning-input');
-        if (!element.checkValidity()) {
-            element.reportValidity();
-            isValid = false;
-        }
-        return isValid;
-    }
+    // validInput() {
+    //     let isValid = true;
+    //     let element = this.template.querySelecter('lightning-input');
+    //     if (!element.checkValidity()) {
+    //         element.reportValidity();
+    //         isValid = false;
+    //     }
+    //     return isValid;
+    // }
 
     showToast(title, message, variant) {
         const event = new ShowToastEvent({
@@ -62,5 +53,11 @@ export default class SpotifyIntegratinWithSalesforce extends LightningElement {
         });
         this.dispatchEvent(event);
     }
+
+    get artistName(){
+        let artistNameArr = this.trackData.artists.map(currItem => currItem.name);
+        return artistNameArr.join(', ');
+    }
+
     
 }
