@@ -3,18 +3,16 @@
         <div class="slds-grid slds-gutters">
             <div class="slds-col slds-size_2-of-3">
                 <lightning-input
-                    varian="label-hidden"
+                    variant="label-hidden"
                     onchange={changeHandler}
                     placeholder="Enter track to Search"
                     required="true"
-                    message-when-value-missing="Please enter a track name to search"
-                ></lightning-input>
+                    message-when-value-missing="Please enter a track name to search"></lightning-input>
             </div>
             <div class="slds-col slds-size_1-of-3">
                 <lightning-button
                     label="Search"
-                    onclick={searchtrack}
-                ></lightning-button>
+                    onclick={searchtrack}></lightning-button>
             </div>
         </div>
     </div>
@@ -23,16 +21,18 @@
             <div class="album-info">
                 <img src={trackURL} alt="Album Cover" class="album-cover">
                 <div class="track-details">
-                    <a href={trackData.external_urls.spotify} 
-                    target="_blank" 
-                    class="track-name">{trackData.name}</a>
+                    <a href={trackData.external_urls.spotify}
+                        target="_blank"
+                        class="track-name">{trackData.name}</a>
+
+                    <p class="artists">Artists: {artistName}</p>
+                    <p class="popularity">Popularity: {trackData.popularity}</p>
+                    <a href={trackData.album.external_urls.spotify}
+                        target="_blank"
+                        class="album-link">{trackData.album.name}</a>
+                    <p class="release-date">Release Date:
+                        {trackData.album.release_date}</p>
                 </div>
-                <p class="artists">Artists: {artistName}</p>
-                <p class="popularity">Popularity: {trackData.popularity}</p>
-                <a href={trackData.album.external_urls.spotify} 
-                    target="_blank" 
-                    class="album-link">{trackData.album.name}</a>
-                <p class="release-date">Release Date: {trackData.album.release_date}</p>
             </div>
         </div>
     </template>
