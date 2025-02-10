@@ -18,7 +18,9 @@ export default class SpotifyIntegratinWithSalesforce extends LightningElement {
                 let responseString = await searchWithSpotify({
                     trackName: this.searchTracker
                 })
-                console.log('type of : ',responseString);
+                let response = JSON.parse(responseString);
+                let parsedResponse = structuredClone(response);
+                console.log('Parsed Response:', parsedResponse);
             } catch (exception) {
                 this.showToast('Error', 'Something went Wrong', 'error');
             }
