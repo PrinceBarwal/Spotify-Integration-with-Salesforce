@@ -1,6 +1,6 @@
 public  class SpotifyIntegration {
     @AuraEnabled
-    public static void searchWithSpotify(String trackName){
+    public static String searchWithSpotify(String trackName){
         Http http = new Http();
 
         HttpRequest request = new HttpRequest();
@@ -15,8 +15,14 @@ public  class SpotifyIntegration {
             System.debug(response.getStatus());
             System.debug(response.getBody());
             System.debug(response.getStatusCode());
+            if(response.getStatusCode() == 200){
+                return response.getBody();
+            }else{
+                throw new AuraHandledException(response.getBody());
+            }
         }catch(Exception ex){
             System.debug(ex.getMessage());
+            throw new AuraHandledException(ex.getMessage());
         }
 
     }
