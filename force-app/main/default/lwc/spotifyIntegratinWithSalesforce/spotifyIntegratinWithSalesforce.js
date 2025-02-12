@@ -15,8 +15,8 @@ export default class SpotifyIntegratinWithSalesforce extends LightningElement {
     }
 
     async searchtrack() {
-        // let isValid = this.validInput();
-        // if (isValid) {
+        let isValid = this.validInput();
+        if (isValid) {
             try {
                 let responseString = await searchWithSpotify({
                     trackName: this.searchTracker
@@ -31,19 +31,20 @@ export default class SpotifyIntegratinWithSalesforce extends LightningElement {
                 this.showToast('Error', 'Something went Wrong', 'error');
             }
                  
-        // }
+        }
 
     }
 
-    // validInput() {
-    //     let isValid = true;
-    //     let element = this.template.querySelecter('lightning-input');
-    //     if (!element.checkValidity()) {
-    //         element.reportValidity();
-    //         isValid = false;
-    //     }
-    //     return isValid;
-    // }
+    validInput() {
+        let isValid = true;
+        let element = this.template.querySelector('lightning-input');
+        if ( element && !element.checkValidity()) {
+            element.reportValidity();
+            isValid = false;
+        }
+        console.log('isValid', isValid);
+        return isValid;
+    }
 
     showToast(title, message, variant) {
         const event = new ShowToastEvent({
